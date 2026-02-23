@@ -15,7 +15,7 @@ for column in data.columns :
 
 scaler_x = StandardScaler()
 scaler_y = StandardScaler()
-data = data.drop(columns=['total_rooms', 'stories', 'bedrooms'])
+
 
 
 x , y = np.array(data.drop(columns=['price'])) , np.array(data[['price']])
@@ -39,7 +39,8 @@ lr.fit(x_train , y_train)
 lr_log.fit(x_train , y_train_log)
 
 
-columns = data.drop(columns=['price']).columns
+columns = np.array(data.drop(columns=['price']).columns)
+print(columns)
 weights = lr.coef_
 for _ , column in enumerate(columns) :
     print(f"{column} : {weights[0][_]} {_}")
@@ -56,5 +57,6 @@ joblib.dump(scaler_y , 'scaler_for_y.pkl')
 np.savez("test_data" , 
          x_test = x_test , 
          y_test = y_test , 
-         y_test_log = y_test_log)
+         y_test_log = y_test_log, 
+         columns = columns)
 print("Model and Scaler saved successfully")

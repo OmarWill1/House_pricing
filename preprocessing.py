@@ -46,7 +46,10 @@ for column in filtered_df.select_dtypes(include='object').columns :
 filtered_df['total_rooms'] = (filtered_df['bedrooms'] + filtered_df['bathrooms'] ) * filtered_df['stories']
 filtered_df['area_per_room']  = filtered_df['area'] / filtered_df['total_rooms']
 
+filtered_df['area_squared'] = filtered_df['area'] ** 2 
 
+
+filtered_df = filtered_df.drop(columns=['area_per_room' , 'total_rooms'])
 corr_matrix = filtered_df.corr()
 correlation_price = filtered_df.corr(numeric_only=True)["price"].sort_values(ascending=False)
 filtered_corr = correlation_price[abs(correlation_price) > 0.25 ]
@@ -56,6 +59,12 @@ print(correlation_price)
 print(columns)
 
 
+#drop the outlier
+
+
+
 
 
 filtered_df.to_csv("cleaned_data.csv" , index=False)
+columns = filtered_df.drop(columns=['price']).columns
+
